@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"] = "https://github.com/Mifrill/archived_remote_object/blob/master/CHANGELOG.md"
 
   spec.require_paths = ["lib"]
+  spec.files         = Dir["{lib}/**/*"] + %w[LICENSE.txt]
 
   spec.add_runtime_dependency "aws-sdk", "~> 3"
 
