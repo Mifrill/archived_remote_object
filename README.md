@@ -8,6 +8,29 @@ Provided OOP interface to get status of the remote file.
 
 https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html
 
+The skeleton structure:
+
+```
+    Archive::RestoredObject
+      archived_object: Archive::ArchivedObject
+        remote_object: AwsS3::ArchivedObject
+          remote_object: AwsS3::RemoteObject
+            remote_client: AwsS3::Client
+```
+
+- AwsS3::Client - low-level simple awsS3 client to send external requests: `head_object/restore`
+
+- AwsS3::RemoteObject - wrapper with the common logic to realize memoization fetched object data from s3_client
+
+- AwsS3::ArchivedObject - wrapper with specific archive/restore AWS logic, methods: `archived?/restore_in_progress?/restored?/restore`
+
+- Archive::ArchivedObject - high-level object with common logic related to "archive", like validation etc.
+
+- Archive::RestoredObject - high-level object to realize the logic of general-idea:
+  Archived (fire restore automatically) -> Restore in progress -> Temp Available
+
+- ArchivedRemoteObject module with `get_object` method to realize full skeleton logic
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -45,7 +68,7 @@ archived_remote_object.status == :restoration_initiated if File was archived but
 
 After checking out the repo, run `bundle install` to install dependencies. Then, run `rake spec` to run the tests.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `rake install`. To release a new version, update the version number in `version.rb`, and then run `rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
