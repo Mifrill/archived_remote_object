@@ -59,4 +59,32 @@ describe ArchivedRemoteObject::AwsS3::Client do
       end
     end
   end
+
+  describe "#assign_storage_class" do
+    it "fires copy_object request with proper key/copy_source/storage_class" do
+      expect(s3_client)
+        .to receive(:copy_object).once.with(
+          bucket: "bucket",
+          key: "test-object-key",
+          copy_source: "bucket/test-object-key",
+          storage_class: "STANDARD"
+        )
+      client.assign_storage_class(key: "test-object-key", storage_class: "STANDARD")
+    end
+
+    context "with API request" do
+      it "fires external copy_object request and returns copy_object_output response" do
+        restore_object_data = client.assign_storage_class(key: "test-object-key", storage_class: "STANDARD")
+        expect(restore_object_data.data).to be_kind_of(Aws::S3::Types::CopyObjectOutput)
+        expect(restore_object_data.context.operation_name).to eq(:copy_object)
+        expect(restore_object_data.context.params)
+          .to eq(
+            bucket: "bucket",
+            key: "test-object-key",
+            storage_class: "STANDARD",
+            copy_source: "bucket/test-object-key"
+          )
+      end
+    end
+  end
 end
