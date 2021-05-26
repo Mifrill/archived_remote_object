@@ -1,3 +1,9 @@
+[0.1.2]: https://github.com/mifrill/archived_remote_object/compare/v0.1.1...v0.1.2
+
+## [0.1.2] ##
+
+Implemented feature to stop archiving remote-object on duration
+
 [0.1.1]: https://github.com/mifrill/archived_remote_object/compare/v0.1.0...v0.1.1
 
 ## [0.1.1] ##
