@@ -24,6 +24,13 @@ describe ArchivedRemoteObject::AwsS3::RemoteObject do
     end
   end
 
+  describe "#storage_class=" do
+    it "fires assign_storage_class on remote_client with proper arguments" do
+      expect(remote_client).to receive(:assign_storage_class).once.with(key: key, storage_class: "STANDARD")
+      remote_object.storage_class = "STANDARD"
+    end
+  end
+
   describe "#sync" do
     it "fires fetch_object_data request to reload archive_data" do
       expect(remote_client).to receive(:fetch_object_data).with(key: key).and_return(archive_data)

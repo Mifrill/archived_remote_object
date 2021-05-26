@@ -4,6 +4,7 @@ module ArchivedRemoteObject
   module Archive
     class ArchivedObject
       CantBeRestoredError = Class.new(StandardError)
+      CantStopArchivingOnDurationError = Class.new(StandardError)
 
       def initialize(
         key:,
@@ -32,6 +33,12 @@ module ArchivedRemoteObject
         raise CantBeRestoredError if available? || restore_in_progress?
 
         remote_object.restore
+      end
+
+      def stop_archiving_on_duration
+        raise CantStopArchivingOnDurationError if !restored? || restore_in_progress?
+
+        remote_object.stop_archiving_on_duration
       end
 
       def available?

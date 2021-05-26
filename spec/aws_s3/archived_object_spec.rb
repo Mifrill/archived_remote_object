@@ -151,6 +151,13 @@ describe ArchivedRemoteObject::AwsS3::ArchivedObject do
     end
   end
 
+  describe "#stop_archiving_on_duration" do
+    it 'fires storage_class setter request with "STANDARD" storage class on remote_object' do
+      expect(remote_object).to receive(:storage_class=).once.with("STANDARD")
+      archived_object.stop_archiving_on_duration
+    end
+  end
+
   describe "#sync" do
     it "fires sync on remote object" do
       expect(remote_object).to receive(:sync).with(no_args).and_return(remote_object)

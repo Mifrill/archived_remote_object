@@ -144,6 +144,39 @@ describe ArchivedRemoteObject::Archive::ArchivedObject do
     end
   end
 
+  describe "#stop_archiving_on_duration" do
+    context 'when "not restored"' do
+      it "raises error" do
+        expect(archived_object).to receive(:restored?).once.and_return(false)
+        expect(archived_object).not_to receive(:restore_in_progress?)
+        expect(source).not_to receive(:stop_archiving_on_duration)
+        expect { archived_object.stop_archiving_on_duration }
+          .to raise_exception(described_class::CantStopArchivingOnDurationError)
+      end
+    end
+
+    context 'when "restored"' do
+      context 'when "restore_in_progress"' do
+        it "raises error" do
+          expect(archived_object).to receive(:restored?).once.and_return(true)
+          expect(archived_object).to receive(:restore_in_progress?).once.and_return(true)
+          expect(source).not_to receive(:stop_archiving_on_duration)
+          expect { archived_object.stop_archiving_on_duration }
+            .to raise_exception(described_class::CantStopArchivingOnDurationError)
+        end
+      end
+
+      context 'when "restore_in_progress"' do
+        it "fires stop_archiving_on_duration on source" do
+          expect(archived_object).to receive(:restored?).once.and_return(true)
+          expect(archived_object).to receive(:restore_in_progress?).once.and_return(false)
+          expect(source).to receive(:stop_archiving_on_duration).once.with(no_args)
+          archived_object.stop_archiving_on_duration
+        end
+      end
+    end
+  end
+
   describe "#sync" do
     it "fires sync on source" do
       expect(source).to receive(:sync)

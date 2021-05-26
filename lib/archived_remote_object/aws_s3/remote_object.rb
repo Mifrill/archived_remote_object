@@ -23,6 +23,11 @@ module ArchivedRemoteObject
         remote_client.restore(**args)
       end
 
+      def storage_class=(storage_class)
+        # accepts STANDARD, STANDARD_IA, ONEZONE_IA, GLACIER, INTELLIGENT_TIERING, DEEP_ARCHIVE
+        remote_client.assign_storage_class(key: key, storage_class: storage_class)
+      end
+
       def sync
         tap { fetch_attributes }
       end
