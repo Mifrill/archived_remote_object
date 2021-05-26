@@ -34,6 +34,10 @@ module ArchivedRemoteObject
         remote_object.restore(key: key, duration: restore_duration_days)
       end
 
+      def stop_archiving_on_duration
+        remote_object.storage_class = 'STANDARD'
+      end
+
       def sync
         tap { remote_object.sync }
       end
