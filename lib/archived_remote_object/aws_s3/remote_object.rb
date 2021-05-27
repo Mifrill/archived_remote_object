@@ -23,6 +23,10 @@ module ArchivedRemoteObject
         remote_client.restore(**args)
       end
 
+      def assign_tag(key:, value:)
+        remote_client.assign_tag(key: self.key, set: [key, value])
+      end
+
       def storage_class=(storage_class)
         # accepts STANDARD, STANDARD_IA, ONEZONE_IA, GLACIER, INTELLIGENT_TIERING, DEEP_ARCHIVE
         remote_client.assign_storage_class(key: key, storage_class: storage_class)
