@@ -33,6 +33,11 @@ module ArchivedRemoteObject
         s3_client.restore_object(bucket: bucket, key: key, restore_request: { days: duration })
       end
 
+      def assign_tag(key:, set:)
+        s3_client.stub_responses(:put_object_tagging) if stubbed?
+        s3_client.put_object_tagging(bucket: bucket, key: key, tagging: { tag_set: [{ key: set[0], value: set[1] }] })
+      end
+
       def assign_storage_class(key:, storage_class:)
         s3_client.stub_responses(:copy_object) if stubbed?
         s3_client.copy_object(bucket: bucket, key: key, copy_source: "#{bucket}/#{key}", storage_class: storage_class)
