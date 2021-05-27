@@ -1,3 +1,9 @@
+[0.1.3]: https://github.com/mifrill/archived_remote_object/compare/v0.1.2...v0.1.3
+
+## [0.1.3] ##
+
+Implemented feature to assign tag with key-value for the remote-object
+
 [0.1.2]: https://github.com/mifrill/archived_remote_object/compare/v0.1.1...v0.1.2
 
 ## [0.1.2] ##
