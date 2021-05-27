@@ -24,6 +24,13 @@ describe ArchivedRemoteObject::AwsS3::RemoteObject do
     end
   end
 
+  describe "#assign_tag" do
+    it "delegates call to remote_client with proper arguments" do
+      expect(remote_client).to receive(:assign_tag).once.with(key: key, set: %w[tag_key tag_value])
+      remote_object.assign_tag(key: "tag_key", value: "tag_value")
+    end
+  end
+
   describe "#storage_class=" do
     it "fires assign_storage_class on remote_client with proper arguments" do
       expect(remote_client).to receive(:assign_storage_class).once.with(key: key, storage_class: "STANDARD")

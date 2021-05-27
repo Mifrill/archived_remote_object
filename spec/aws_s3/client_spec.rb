@@ -60,6 +60,30 @@ describe ArchivedRemoteObject::AwsS3::Client do
     end
   end
 
+  describe "#assign_tag" do
+    it "fires put_object_tagging request with proper key and set of tag key:value" do
+      expect(s3_client)
+        .to receive(:put_object_tagging).once.with(
+          bucket: "bucket", key: "test-object-key", tagging: { tag_set: [{ key: "tag-key", value: "tag-value" }] }
+        )
+      client.assign_tag(key: "test-object-key", set: %w[tag-key tag-value])
+    end
+
+    context "with API request" do
+      it "fires external put_object_tagging request and returns put_object_tagging_output response" do
+        restore_object_data = client.assign_tag(key: "test-object-key", set: %w[attachable_type SubmissionVersion])
+        expect(restore_object_data.data).to be_kind_of(Aws::S3::Types::PutObjectTaggingOutput)
+        expect(restore_object_data.context.operation_name).to eq(:put_object_tagging)
+        expect(restore_object_data.context.params)
+          .to eq(
+            bucket: "bucket",
+            key: "test-object-key",
+            tagging: { tag_set: [{ key: "attachable_type", value: "SubmissionVersion" }] }
+          )
+      end
+    end
+  end
+
   describe "#assign_storage_class" do
     it "fires copy_object request with proper key/copy_source/storage_class" do
       expect(s3_client)
