@@ -45,6 +45,13 @@ describe ArchivedRemoteObject::AwsS3::RemoteObject do
     end
   end
 
+  describe "#exists?" do
+    it "fires exists? on remote_client" do
+      expect(remote_client).to receive(:exists?).once.with(key: key)
+      remote_object.exists?
+    end
+  end
+
   describe "#sync" do
     it "fires fetch_object_data request to reload archive_data" do
       expect(remote_client).to receive(:fetch_object_data).with(key: key).and_return(archive_data)

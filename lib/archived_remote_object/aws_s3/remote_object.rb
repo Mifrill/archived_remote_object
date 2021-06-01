@@ -36,6 +36,10 @@ module ArchivedRemoteObject
         remote_client.delete(key: key)
       end
 
+      def exists?
+        remote_client.exists?(key: key)
+      end
+
       def sync
         tap { fetch_attributes }
       end
