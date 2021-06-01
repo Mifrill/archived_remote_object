@@ -1,3 +1,9 @@
+[0.1.5]: https://github.com/mifrill/archived_remote_object/compare/v0.1.4...v0.1.5
+
+## [0.1.5] ##
+
+Implemented feature to check remote-object existence by provided key
+
 [0.1.4]: https://github.com/mifrill/archived_remote_object/compare/v0.1.3...v0.1.4
 
 ## [0.1.4] ##
