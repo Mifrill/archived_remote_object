@@ -1,3 +1,9 @@
+[0.1.4]: https://github.com/mifrill/archived_remote_object/compare/v0.1.3...v0.1.4
+
+## [0.1.4] ##
+
+Implemented feature to delete remote-object by provided key 
+
 [0.1.3]: https://github.com/mifrill/archived_remote_object/compare/v0.1.2...v0.1.3
 
 ## [0.1.3] ##
