@@ -6,6 +6,8 @@ Layout/LineLength:
   Max: 120
 Metrics/BlockLength:
   Max: 150
+  Exclude:
+    - "spec/**/*"
 Lint/AmbiguousBlockAssociation:
   Exclude:
     - "spec/**/*"
