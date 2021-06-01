@@ -135,4 +135,46 @@ describe ArchivedRemoteObject::AwsS3::Client do
       end
     end
   end
+
+  describe "#exists?" do
+    context "when object exists" do
+      it 'returns boolean "true" on success head_object request' do
+        expect(s3_client)
+          .to receive(:head_object)
+          .once
+          .with(bucket: "bucket", key: "test-object-key")
+          .and_return(object_double(Aws::S3::Types::HeadObjectOutput))
+        expect(client.exists?(key: "test-object-key")).to eq(true)
+      end
+
+      context "with API request" do
+        it 'fires external head_object request and returns "true" boolean' do
+          expect(client).to receive(:bucket).once.and_return("bucket")
+          expect(client.exists?(key: "test-object-key")).to eq(true)
+        end
+      end
+    end
+
+    context "when object does not exists" do
+      it 'returns boolean "false" on head_object request which failed by NotFound error' do
+        expect(s3_client)
+          .to receive(:head_object)
+          .once
+          .with(bucket: "bucket", key: "test-object-key")
+          .and_raise(Aws::S3::Errors::NotFound.new(Seahorse::Client::RequestContext, "NotFound"))
+        expect(client.exists?(key: "test-object-key")).to eq(false)
+      end
+
+      context "with API request" do
+        it 'fires external head_object request and returns "true" boolean' do
+          expect(client).to receive(:bucket).once.and_return("bucket")
+          s3_client.stub_responses(:head_object,
+                                   status_code: 404,
+                                   headers: {},
+                                   body: "")
+          expect(client.exists?(key: "test-object-key")).to eq(false)
+        end
+      end
+    end
+  end
 end
