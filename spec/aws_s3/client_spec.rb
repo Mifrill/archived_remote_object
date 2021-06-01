@@ -111,4 +111,28 @@ describe ArchivedRemoteObject::AwsS3::Client do
       end
     end
   end
+
+  describe "#delete" do
+    it "fires delete_object request with proper key" do
+      expect(s3_client)
+        .to receive(:delete_object).once.with(
+          bucket: "bucket",
+          key: "test-object-key"
+        )
+      client.delete(key: "test-object-key")
+    end
+
+    context "with API request" do
+      it "fires external delete_object request and returns delete_object_output response" do
+        restore_object_data = client.delete(key: "test-object-key")
+        expect(restore_object_data.data).to be_kind_of(Aws::S3::Types::DeleteObjectOutput)
+        expect(restore_object_data.context.operation_name).to eq(:delete_object)
+        expect(restore_object_data.context.params)
+          .to eq(
+            bucket: "bucket",
+            key: "test-object-key"
+          )
+      end
+    end
+  end
 end

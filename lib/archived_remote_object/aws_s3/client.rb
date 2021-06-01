@@ -43,6 +43,11 @@ module ArchivedRemoteObject
         s3_client.copy_object(bucket: bucket, key: key, copy_source: "#{bucket}/#{key}", storage_class: storage_class)
       end
 
+      def delete(key:)
+        s3_client.stub_responses(:delete_object) if stubbed?
+        s3_client.delete_object(bucket: bucket, key: key)
+      end
+
       private
 
       def bucket
