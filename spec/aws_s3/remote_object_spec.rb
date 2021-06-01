@@ -38,6 +38,13 @@ describe ArchivedRemoteObject::AwsS3::RemoteObject do
     end
   end
 
+  describe "#delete" do
+    it "fires delete on remote_client" do
+      expect(remote_client).to receive(:delete).once.with(key: key)
+      remote_object.delete
+    end
+  end
+
   describe "#sync" do
     it "fires fetch_object_data request to reload archive_data" do
       expect(remote_client).to receive(:fetch_object_data).with(key: key).and_return(archive_data)

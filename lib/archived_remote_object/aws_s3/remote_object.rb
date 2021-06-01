@@ -32,6 +32,10 @@ module ArchivedRemoteObject
         remote_client.assign_storage_class(key: key, storage_class: storage_class)
       end
 
+      def delete
+        remote_client.delete(key: key)
+      end
+
       def sync
         tap { fetch_attributes }
       end
