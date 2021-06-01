@@ -48,6 +48,12 @@ module ArchivedRemoteObject
         s3_client.delete_object(bucket: bucket, key: key)
       end
 
+      def exists?(key:)
+        !!fetch_object_data(key: key)
+      rescue Aws::S3::Errors::NotFound
+        false
+      end
+
       private
 
       def bucket
