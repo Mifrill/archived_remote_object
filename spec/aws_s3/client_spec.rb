@@ -149,7 +149,6 @@ describe ArchivedRemoteObject::AwsS3::Client do
 
       context "with API request" do
         it 'fires external head_object request and returns "true" boolean' do
-          expect(client).to receive(:bucket).once.and_return("bucket")
           expect(client.exists?(key: "test-object-key")).to eq(true)
         end
       end
@@ -167,7 +166,6 @@ describe ArchivedRemoteObject::AwsS3::Client do
 
       context "with API request" do
         it 'fires external head_object request and returns "false" boolean' do
-          expect(client).to receive(:bucket).once.and_return("bucket")
           s3_client.stub_responses(:head_object,
                                    status_code: 404,
                                    headers: {},
