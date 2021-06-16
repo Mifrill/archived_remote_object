@@ -4,7 +4,7 @@
 
 Based on AWS-S3 DeepArchive feature: Archived -> Restore in progress -> Temp Available
 
-Provided OOP interface to get status of the remote file.
+Provided OOP interface to manage the archived remote file.
 
 https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html
 
